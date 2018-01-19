@@ -139,7 +139,7 @@ namespace TestDemining
 					Border border = new Border();
 					border.BorderThickness = new Thickness(0.5);
 					border.BorderBrush = new SolidColorBrush(Colors.Black);
-					//border.Child = button;
+					border.Child = button;
 					deminingGrid.Children.Add(border);
 					Grid.SetRow(border,i);
 					Grid.SetColumn(border,j);
@@ -151,12 +151,10 @@ namespace TestDemining
 		private void SearchAroundBomb(int rowDef,int colDef,int selfNum)
 		{
 			TextBlock textblock = new TextBlock();
-			textblock.FontSize = 30;
-			textblock.VerticalAlignment = VerticalAlignment.Center;
-			textblock.HorizontalAlignment = HorizontalAlignment.Center;
-
+			
 			int bNumber = 0;
 			int styleNum = 0;
+
 			#region 炸弹附近数字分配
 			//一共九种
 			if(rowDef == 0)
@@ -280,6 +278,9 @@ namespace TestDemining
 
 			if(bNumber != 0)
 			{
+				textblock.VerticalAlignment = VerticalAlignment.Center;
+				textblock.HorizontalAlignment = HorizontalAlignment.Center;
+				textblock.FontSize = 30;
 				textblock.Text = bNumber.ToString();
 				KeyValuePair<int,bool?> dic = new KeyValuePair<int,bool?>(styleNum,false);
 				textblock.Tag = dic;
@@ -290,7 +291,6 @@ namespace TestDemining
 				KeyValuePair<int,bool?> dic = new KeyValuePair<int,bool?>(styleNum,null);
 				textblock.Tag = dic;
 			}
-
 			deminingGrid.Children.Add(textblock);
 			Grid.SetRow(textblock,rowDef);
 			Grid.SetColumn(textblock,colDef);
@@ -319,15 +319,14 @@ namespace TestDemining
 
 				if(e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Pressed)
 				{
+					int rowTBDef = Grid.GetRow(textblock);
+					int colTBDef = Grid.GetColumn(textblock);
+					int selfNum = rowTBDef * 10 + colTBDef;
+					List<Button> listBTN = new List<Button>();
 					if(dic.Value == false)
 					{
 						int tNumber = Convert.ToInt32(textblock.Text);
-						int rowTBDef = Grid.GetRow(textblock);
-						int colTBDef = Grid.GetColumn(textblock);
-						int selfNum = rowTBDef * 10 + colTBDef;
 						int bNumber = 0;
-						List<Button> listBTN = new List<Button>();
-
 						for(int i = bombEF.BombNum;i < deminingGrid.Children.Count;i++)
 						{
 							var a = deminingGrid.Children[i];
@@ -341,116 +340,13 @@ namespace TestDemining
 								Button button = border.Child as Button;
 								if(button.Visibility == Visibility.Visible)
 								{
-									switch(dic.Key)
+									if(CheckDicKey(dic.Key,buttonNum,selfNum))
 									{
-										case 1:
-											{
-												if(buttonNum == (selfNum + 1) || buttonNum == (selfNum + 10) || buttonNum == (selfNum + 10 + 1))
-												{
-													listBTN.Add(button);
-													if((bool)button.Tag)
-													{
-														bNumber++;
-													}
-												}
-												break;
-											}
-										case 2:
-											{
-												if(buttonNum == (selfNum - 1) || buttonNum == (selfNum + 10) || buttonNum == (selfNum + 10 - 1))
-												{
-													listBTN.Add(button);
-													if((bool)button.Tag)
-													{
-														bNumber++;
-													}
-												}
-												break;
-											}
-										case 3:
-											{
-												if(buttonNum == (selfNum - 1) || buttonNum == (selfNum + 1) || buttonNum == (selfNum + 10 - 1) || buttonNum == (selfNum + 10) || buttonNum == (selfNum + 10 + 1))
-												{
-													listBTN.Add(button);
-													if((bool)button.Tag)
-													{
-														bNumber++;
-													}
-												}
-												break;
-											}
-										case 4:
-											{
-												if(buttonNum == (selfNum + 1) || buttonNum == (selfNum - 10) || buttonNum == (selfNum - 10 + 1))
-												{
-													listBTN.Add(button);
-													if((bool)button.Tag)
-													{
-														bNumber++;
-													}
-												}
-												break;
-											}
-										case 5:
-											{
-												if(buttonNum == (selfNum - 10) || buttonNum == (selfNum - 10 + 1) || buttonNum == (selfNum + 1) || buttonNum == (selfNum + 10) || buttonNum == (selfNum + 10 + 1))
-												{
-													listBTN.Add(button);
-													if((bool)button.Tag)
-													{
-														bNumber++;
-													}
-												}
-												break;
-											}
-										case 6:
-											{
-												if(buttonNum == (selfNum - 1) || buttonNum == (selfNum - 10) || buttonNum == (selfNum - 10 - 1))
-												{
-													listBTN.Add(button);
-													if((bool)button.Tag)
-													{
-														bNumber++;
-													}
-												}
-												break;
-											}
-										case 7:
-											{
-												if(buttonNum == (selfNum - 1) || buttonNum == (selfNum - 10 - 1) || buttonNum == (selfNum + 1) || buttonNum == (selfNum - 10) || buttonNum == (selfNum - 10 + 1))
-												{
-													listBTN.Add(button);
-													if((bool)button.Tag)
-													{
-														bNumber++;
-													}
-												}
-												break;
-											}
-										case 8:
-											{
-												if(buttonNum == (selfNum - 1) || buttonNum == (selfNum - 10 - 1) || buttonNum == (selfNum + 10) || buttonNum == (selfNum - 10) || buttonNum == (selfNum + 10 - 1))
-												{
-													listBTN.Add(button);
-													if((bool)button.Tag)
-													{
-														bNumber++;
-													}
-												}
-												break;
-											}
-										case 9:
-											{
-												if(buttonNum == (selfNum - 1) || buttonNum == (selfNum - 10) || buttonNum == (selfNum - 10 - 1) || buttonNum == (selfNum - 10 + 1) || buttonNum == (selfNum + 1) || buttonNum == (selfNum + 10) || buttonNum == (selfNum + 10 - 1) || buttonNum == (selfNum + 10 + 1))
-												{
-													listBTN.Add(button);
-													if((bool)button.Tag)
-													{
-														bNumber++;
-													}
-												}
-												break;
-											}
+										listBTN.Add(button);
+										if((bool)button.Tag)
+										{
+											bNumber++;
+										}
 									}
 								}
 							}
@@ -463,8 +359,120 @@ namespace TestDemining
 							}
 						}
 					}
+					else if(dic.Value == null)
+					{
+						for(int i = bombEF.BombNum;i < deminingGrid.Children.Count;i++)
+						{
+							var a = deminingGrid.Children[i];
+							if(a.GetType() == typeof(Border))
+							{
+								Border border = a as Border;
+								int rowBTNDef = Grid.GetRow(border);
+								int colBTNDef = Grid.GetColumn(border);
+								int buttonNum = rowBTNDef * 10 + colBTNDef;
+
+								Button button = border.Child as Button;
+								if(button.Visibility == Visibility.Visible)
+								{
+									if(CheckDicKey(dic.Key,buttonNum,selfNum))
+									{
+										listBTN.Add(button);
+									}
+								}
+							}
+						}
+						foreach(Button btn in listBTN)
+						{
+							ButtonClick(btn,true);
+						}
+					}
 				}
 			}
+		}
+
+		private bool CheckDicKey(int key,int buttonNum,int selfNum)
+		{
+			bool returnBool = false;
+
+			#region 数字分配选择方式
+			switch(key)
+			{
+				case 1:
+					{
+						if(buttonNum == (selfNum + 1) || buttonNum == (selfNum + 10) || buttonNum == (selfNum + 10 + 1))
+						{
+							returnBool = true;
+						}
+						break;
+					}
+				case 2:
+					{
+						if(buttonNum == (selfNum - 1) || buttonNum == (selfNum + 10) || buttonNum == (selfNum + 10 - 1))
+						{
+							returnBool = true;
+						}
+						break;
+					}
+				case 3:
+					{
+						if(buttonNum == (selfNum - 1) || buttonNum == (selfNum + 1) || buttonNum == (selfNum + 10 - 1) || buttonNum == (selfNum + 10) || buttonNum == (selfNum + 10 + 1))
+						{
+							returnBool = true;
+						}
+						break;
+					}
+				case 4:
+					{
+						if(buttonNum == (selfNum + 1) || buttonNum == (selfNum - 10) || buttonNum == (selfNum - 10 + 1))
+						{
+							returnBool = true;
+						}
+						break;
+					}
+				case 5:
+					{
+						if(buttonNum == (selfNum - 10) || buttonNum == (selfNum - 10 + 1) || buttonNum == (selfNum + 1) || buttonNum == (selfNum + 10) || buttonNum == (selfNum + 10 + 1))
+						{
+							returnBool = true;
+						}
+						break;
+					}
+				case 6:
+					{
+						if(buttonNum == (selfNum - 1) || buttonNum == (selfNum - 10) || buttonNum == (selfNum - 10 - 1))
+						{
+							returnBool = true;
+						}
+						break;
+					}
+				case 7:
+					{
+						if(buttonNum == (selfNum - 1) || buttonNum == (selfNum - 10 - 1) || buttonNum == (selfNum + 1) || buttonNum == (selfNum - 10) || buttonNum == (selfNum - 10 + 1))
+						{
+							returnBool = true;
+						}
+						break;
+					}
+				case 8:
+					{
+						if(buttonNum == (selfNum - 1) || buttonNum == (selfNum - 10 - 1) || buttonNum == (selfNum + 10) || buttonNum == (selfNum - 10) || buttonNum == (selfNum + 10 - 1))
+						{
+							returnBool = true;
+						}
+						break;
+					}
+				case 9:
+					{
+						if(buttonNum == (selfNum - 1) || buttonNum == (selfNum - 10) || buttonNum == (selfNum - 10 - 1) || buttonNum == (selfNum - 10 + 1) || buttonNum == (selfNum + 1) || buttonNum == (selfNum + 10) || buttonNum == (selfNum + 10 - 1) || buttonNum == (selfNum + 10 + 1))
+						{
+							returnBool = true;
+						}
+						break;
+					}
+			}
+			#endregion
+
+			return returnBool;
 		}
 
 		private void ButtonClick(Button button,bool state)
@@ -477,19 +485,43 @@ namespace TestDemining
 					Border border = button.Parent as Border;
 					int rowBTNDef = Grid.GetRow(border);
 					int colBTNDef = Grid.GetColumn(border);
-					for(int i = 0;i < bombEF.BombNum;i++)
+
+					//单纯的button不靠循环怎么拿到底层的textblock
+					if(tbdic.Value == null)
 					{
-						var a = deminingGrid.Children[i];
-						if(a.GetType() == typeof(TextBlock))
+						for(int i = bombEF.BombNum;i < deminingGrid.Children.Count;i++)
 						{
-							TextBlock textblock = a as TextBlock;
-							int rowTBDef = Grid.GetRow(textblock);
-							int colTBDef = Grid.GetColumn(textblock);
-							KeyValuePair<int,bool?> dic = (KeyValuePair<int,bool?>)textblock.Tag;
-							if(rowBTNDef == rowTBDef && colBTNDef == colTBDef && dic.Value == true)
+							var a = deminingGrid.Children[i];
+							if(a.GetType() == typeof(TextBlock))
 							{
-								bombEF.BombNum--;
-								MessageBox.Show("BOOM你输了!");
+								TextBlock textblock = a as TextBlock;
+								int rowTBDef = Grid.GetRow(textblock);
+								int colTBDef = Grid.GetColumn(textblock);
+								KeyValuePair<int,bool?> dic = (KeyValuePair<int,bool?>)textblock.Tag;
+								if(rowBTNDef == rowTBDef && colBTNDef == colTBDef && dic.Value == true)
+								{
+									bombEF.BombNum--;
+									MessageBox.Show("BOOM你输了!");
+								}
+							}
+						}
+					}
+					else if(tbdic.Value == false)
+					{
+						for(int i = 0;i < bombEF.BombNum;i++)
+						{
+							var a = deminingGrid.Children[i];
+							if(a.GetType() == typeof(TextBlock))
+							{
+								TextBlock textblock = a as TextBlock;
+								int rowTBDef = Grid.GetRow(textblock);
+								int colTBDef = Grid.GetColumn(textblock);
+								KeyValuePair<int,bool?> dic = (KeyValuePair<int,bool?>)textblock.Tag;
+								if(rowBTNDef == rowTBDef && colBTNDef == colTBDef && dic.Value == true)
+								{
+									bombEF.BombNum--;
+									MessageBox.Show("BOOM你输了!");
+								}
 							}
 						}
 					}
