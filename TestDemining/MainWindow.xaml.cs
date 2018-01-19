@@ -487,7 +487,7 @@ namespace TestDemining
 					int colBTNDef = Grid.GetColumn(border);
 
 					//单纯的button不靠循环怎么拿到底层的textblock
-					if(tbdic.Value == null)
+					//if(tbdic.Value == null)
 					{
 						for(int i = bombEF.BombNum;i < deminingGrid.Children.Count;i++)
 						{
@@ -506,7 +506,7 @@ namespace TestDemining
 							}
 						}
 					}
-					else if(tbdic.Value == false)
+					//else if(tbdic.Value == false)
 					{
 						for(int i = 0;i < bombEF.BombNum;i++)
 						{
