@@ -305,11 +305,11 @@ namespace TestDemining
 
 				if(e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
 				{
-					ButtonClick(button,true);
+					ButtonClick(button,true,null);
 				}
 				else if(e.LeftButton == MouseButtonState.Released && e.RightButton == MouseButtonState.Pressed)
 				{
-					ButtonClick(button,false);
+					ButtonClick(button,false,null);
 				}
 			}
 			else if(e.Source.GetType() == typeof(TextBlock))
@@ -355,7 +355,7 @@ namespace TestDemining
 						{
 							foreach(Button btn in listBTN)
 							{
-								ButtonClick(btn,true);
+								ButtonClick(btn,true,textblock);
 							}
 						}
 					}
@@ -383,7 +383,7 @@ namespace TestDemining
 						}
 						foreach(Button btn in listBTN)
 						{
-							ButtonClick(btn,true);
+							ButtonClick(btn,true,textblock);
 						}
 					}
 				}
@@ -475,19 +475,19 @@ namespace TestDemining
 			return returnBool;
 		}
 
-		private void ButtonClick(Button button,bool state)
+		private void ButtonClick(Button button,bool state,TextBlock tb)
 		{
 			if(state)
 			{
-				if(!(bool)button.Tag)
+				Border border = button.Parent as Border;
+				int rowBTNDef = Grid.GetRow(border);
+				int colBTNDef = Grid.GetColumn(border);
+
+				if(!(bool)button.Tag && tb != null)
 				{
 					button.Visibility = Visibility.Hidden;
-					Border border = button.Parent as Border;
-					int rowBTNDef = Grid.GetRow(border);
-					int colBTNDef = Grid.GetColumn(border);
-
-					//单纯的button不靠循环怎么拿到底层的textblock
-					//if(tbdic.Value == null)
+					KeyValuePair<int,bool?> tbdic = (KeyValuePair<int,bool?>)tb.Tag;
+					if(tbdic.Value == null)
 					{
 						for(int i = bombEF.BombNum;i < deminingGrid.Children.Count;i++)
 						{
@@ -506,7 +506,7 @@ namespace TestDemining
 							}
 						}
 					}
-					//else if(tbdic.Value == false)
+					else if(tbdic.Value == false)
 					{
 						for(int i = 0;i < bombEF.BombNum;i++)
 						{
@@ -522,6 +522,26 @@ namespace TestDemining
 									bombEF.BombNum--;
 									MessageBox.Show("BOOM你输了!");
 								}
+							}
+						}
+					}
+				}
+				else if(!(bool)button.Tag && tb == null)
+				{
+					button.Visibility = Visibility.Hidden;
+					for(int i = 0;i < bombEF.BombNum;i++)
+					{
+						var a = deminingGrid.Children[i];
+						if(a.GetType() == typeof(TextBlock))
+						{
+							TextBlock textblock = a as TextBlock;
+							int rowTBDef = Grid.GetRow(textblock);
+							int colTBDef = Grid.GetColumn(textblock);
+							KeyValuePair<int,bool?> dic = (KeyValuePair<int,bool?>)textblock.Tag;
+							if(rowBTNDef == rowTBDef && colBTNDef == colTBDef && dic.Value == true)
+							{
+								bombEF.BombNum--;
+								MessageBox.Show("BOOM你输了!");
 							}
 						}
 					}
