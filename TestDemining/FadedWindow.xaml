@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:TestDemining"
         mc:Ignorable="d"
         Title="FadedWindow" Height="500" Width="500" Loaded="Window_Loaded">
-    <Grid Background="Black" Name="grid">
+    <Grid>
+		<Grid Background="Black" Name="bordergrid" Panel.ZIndex="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Grid>
+		<Grid Background="Transparent" Name="textblockgrid" Panel.ZIndex="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Grid>
     </Grid>
 </Window>
