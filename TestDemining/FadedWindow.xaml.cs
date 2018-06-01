@@ -94,7 +94,6 @@ namespace TestDemining
 		LinearGradientBrush rightLgb = new LinearGradientBrush(Colors.Gray,Colors.Transparent,new Point(0,0),new Point(1,0));
 		LinearGradientBrush topLgb = new LinearGradientBrush(Colors.Gray,Colors.Transparent,new Point(0,1),new Point(0,0));
 		LinearGradientBrush bottomLgb = new LinearGradientBrush(Colors.Gray,Colors.Transparent,new Point(0,0),new Point(0,1));
-
 		private void Cborder_MouseLeftButtonDown(object sender,MouseButtonEventArgs e)
 		{
 			Border border = sender as Border;
@@ -105,12 +104,6 @@ namespace TestDemining
 				cborder.Background = Brushes.Gray;
 				cborder.BorderBrush = Brushes.LightGray;
 			}
-			//CustomBorder cborder = sender as CustomBorder;
-			//if(cborder.IsMouseOver)
-			//{
-			//	cborder.Background = Brushes.Gray;
-			//	cborder.BorderBrush = Brushes.LightGray;
-			//}
 		}
 
 		private void border_MouseLeave(object sender,MouseEventArgs e)
@@ -121,8 +114,14 @@ namespace TestDemining
 			if(!border.IsMouseOver)
 			{
 				cborder.Background = bordergrid.Background;
-				cborder.BorderBrush = Brushes.Transparent;
+				cborder.BorderBrush = null;
+				//cborder.LeftBorderBrush = null;
+				//cborder.TopBorderBrush = null;
+				//cborder.RightBorderBrush = null;
+				//cborder.BottomBorderBrush = null;
 				ClearAroundCborder(gridNum);
+				DoubleAnimation daV = new DoubleAnimation(0,0,new Duration(TimeSpan.FromSeconds(1)));
+				cborder.BeginAnimation(UIElement.OpacityProperty,daV);
 			}
 		}
 
@@ -134,21 +133,20 @@ namespace TestDemining
 			if(bordergridNum == 0)
 			{
 				CustomBorder Right = bordergrid.Children[bordergridNum + 1] as CustomBorder;
+				CustomBorder Bottom = bordergrid.Children[bordergridNum + RowsCount] as CustomBorder;
+				CustomBorder rightBottom = bordergrid.Children[bordergridNum + RowsCount + 1] as CustomBorder;
+				
 				Right.BeginAnimation(UIElement.OpacityProperty,daV);
+				rightBottom.BeginAnimation(UIElement.OpacityProperty,daV);
+				Bottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Right.LeftBorderBrush = null;
 				//Right.TopBorderBrush = null;
 				//Right.BottomBorderBrush = null;
 				//Right.BorderBrush = null;
-
-				CustomBorder Bottom = bordergrid.Children[bordergridNum + RowsCount] as CustomBorder;
-				Bottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Bottom.LeftBorderBrush = null;
 				//Bottom.RightBorderBrush = null;
 				//Bottom.TopBorderBrush = null;
 				//Bottom.BorderBrush = null;
-
-				CustomBorder rightBottom = bordergrid.Children[bordergridNum + RowsCount + 1] as CustomBorder;
-				rightBottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				//rightBottom.LeftBorderBrush = null;
 				//rightBottom.TopBorderBrush = null;
 				//rightBottom.BorderBrush = null;
@@ -157,21 +155,20 @@ namespace TestDemining
 			else if(bordergridNum == RowsCount - 1)
 			{
 				CustomBorder Left = bordergrid.Children[bordergridNum - 1] as CustomBorder;
+				CustomBorder Bottom = bordergrid.Children[bordergridNum + RowsCount] as CustomBorder;
+				CustomBorder leftBottom = bordergrid.Children[bordergridNum + RowsCount - 1] as CustomBorder;
+				
+				leftBottom.BeginAnimation(UIElement.OpacityProperty,daV);
+				Bottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				Left.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Left.TopBorderBrush = null;
 				//Left.RightBorderBrush = null;
 				//Left.BottomBorderBrush = null;
 				//Left.BorderBrush = null;
-
-				CustomBorder Bottom = bordergrid.Children[bordergridNum + RowsCount] as CustomBorder;
-				Bottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Bottom.LeftBorderBrush = null;
 				//Bottom.RightBorderBrush = null;
 				//Bottom.TopBorderBrush = null;
 				//Bottom.BorderBrush = null;
-
-				CustomBorder leftBottom = bordergrid.Children[bordergridNum + RowsCount - 1] as CustomBorder;
-				leftBottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				//leftBottom.RightBorderBrush = null;
 				//leftBottom.TopBorderBrush = null;
 				//leftBottom.BorderBrush = null;
@@ -180,21 +177,20 @@ namespace TestDemining
 			else if(bordergridNum == RowsCount * (RowsCount - 1))
 			{
 				CustomBorder Top = bordergrid.Children[bordergridNum - RowsCount] as CustomBorder;
+				CustomBorder Right = bordergrid.Children[bordergridNum + 1] as CustomBorder;
+				CustomBorder rightTop = bordergrid.Children[bordergridNum - RowsCount + 1] as CustomBorder;
+				
+				rightTop.BeginAnimation(UIElement.OpacityProperty,daV);
+				Right.BeginAnimation(UIElement.OpacityProperty,daV);
 				Top.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Top.LeftBorderBrush = null;
 				//Top.RightBorderBrush = null;
 				//Top.BottomBorderBrush = null;
 				//Top.BorderBrush = null;
-
-				CustomBorder Right = bordergrid.Children[bordergridNum + 1] as CustomBorder;
-				Right.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Right.LeftBorderBrush = null;
 				//Right.TopBorderBrush = null;
 				//Right.BottomBorderBrush = null;
 				//Right.BorderBrush = null;
-
-				CustomBorder rightTop = bordergrid.Children[bordergridNum - RowsCount + 1] as CustomBorder;
-				rightTop.BeginAnimation(UIElement.OpacityProperty,daV);
 				//rightTop.LeftBorderBrush = null;
 				//rightTop.BottomBorderBrush = null;
 				//rightTop.BorderBrush = null;
@@ -203,21 +199,20 @@ namespace TestDemining
 			else if(bordergridNum == RowsCount * RowsCount - 1)
 			{
 				CustomBorder Left = bordergrid.Children[bordergridNum - 1] as CustomBorder;
+				CustomBorder Top = bordergrid.Children[bordergridNum - RowsCount] as CustomBorder;
+				CustomBorder leftTop = bordergrid.Children[bordergridNum - RowsCount - 1] as CustomBorder;
+				
+				leftTop.BeginAnimation(UIElement.OpacityProperty,daV);
+				Top.BeginAnimation(UIElement.OpacityProperty,daV);
 				Left.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Left.TopBorderBrush = null;
 				//Left.RightBorderBrush = null;
 				//Left.BottomBorderBrush = null;
 				//Left.BorderBrush = null;
-
-				CustomBorder Top = bordergrid.Children[bordergridNum - RowsCount] as CustomBorder;
-				Top.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Top.LeftBorderBrush = null;
 				//Top.RightBorderBrush = null;
 				//Top.BottomBorderBrush = null;
 				//Top.BorderBrush = null;
-
-				CustomBorder leftTop = bordergrid.Children[bordergridNum - RowsCount - 1] as CustomBorder;
-				leftTop.BeginAnimation(UIElement.OpacityProperty,daV);
 				//leftTop.RightBorderBrush = null;
 				//leftTop.BottomBorderBrush = null;
 				//leftTop.BorderBrush = null;
@@ -226,34 +221,31 @@ namespace TestDemining
 			else if(bordergridNum > 0 && bordergridNum < RowsCount - 1)
 			{
 				CustomBorder Right = bordergrid.Children[bordergridNum + 1] as CustomBorder;
+				CustomBorder Left = bordergrid.Children[bordergridNum - 1] as CustomBorder;
+				CustomBorder Bottom = bordergrid.Children[bordergridNum + RowsCount] as CustomBorder;
+				CustomBorder leftBottom = bordergrid.Children[bordergridNum + RowsCount - 1] as CustomBorder;
+				CustomBorder rightBottom = bordergrid.Children[bordergridNum + RowsCount + 1] as CustomBorder;
+				
+				rightBottom.BeginAnimation(UIElement.OpacityProperty,daV);
+				leftBottom.BeginAnimation(UIElement.OpacityProperty,daV);
+				Bottom.BeginAnimation(UIElement.OpacityProperty,daV);
+				Left.BeginAnimation(UIElement.OpacityProperty,daV);
 				Right.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Right.LeftBorderBrush = null;
 				//Right.TopBorderBrush = null;
 				//Right.BottomBorderBrush = null;
 				//Right.BorderBrush = null;
-
-				CustomBorder Left = bordergrid.Children[bordergridNum - 1] as CustomBorder;
-				Left.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Left.TopBorderBrush = null;
 				//Left.RightBorderBrush = null;
 				//Left.BottomBorderBrush = null;
 				//Left.BorderBrush = null;
-
-				CustomBorder Bottom = bordergrid.Children[bordergridNum + RowsCount] as CustomBorder;
-				Bottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Bottom.LeftBorderBrush = null;
 				//Bottom.RightBorderBrush = null;
 				//Bottom.TopBorderBrush = null;
 				//Bottom.BorderBrush = null;
-
-				CustomBorder leftBottom = bordergrid.Children[bordergridNum + RowsCount - 1] as CustomBorder;
-				leftBottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				//leftBottom.RightBorderBrush = null;
 				//leftBottom.TopBorderBrush = null;
 				//leftBottom.BorderBrush = null;
-
-				CustomBorder rightBottom = bordergrid.Children[bordergridNum + RowsCount + 1] as CustomBorder;
-				rightBottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				//rightBottom.LeftBorderBrush = null;
 				//rightBottom.TopBorderBrush = null;
 				//rightBottom.BorderBrush = null;
@@ -262,34 +254,31 @@ namespace TestDemining
 			else if(bordergridNum > RowsCount * (RowsCount - 1) && bordergridNum < RowsCount * RowsCount - 1)
 			{
 				CustomBorder Left = bordergrid.Children[bordergridNum - 1] as CustomBorder;
+				CustomBorder Top = bordergrid.Children[bordergridNum - RowsCount] as CustomBorder;
+				CustomBorder Right = bordergrid.Children[bordergridNum + 1] as CustomBorder;
+				CustomBorder rightTop = bordergrid.Children[bordergridNum - RowsCount + 1] as CustomBorder;
+				CustomBorder leftTop = bordergrid.Children[bordergridNum - RowsCount - 1] as CustomBorder;
+				
+				leftTop.BeginAnimation(UIElement.OpacityProperty,daV);
+				rightTop.BeginAnimation(UIElement.OpacityProperty,daV);
+				Right.BeginAnimation(UIElement.OpacityProperty,daV);
+				Top.BeginAnimation(UIElement.OpacityProperty,daV);
 				Left.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Left.TopBorderBrush = null;
 				//Left.RightBorderBrush = null;
 				//Left.BottomBorderBrush = null;
 				//Left.BorderBrush = null;
-
-				CustomBorder Top = bordergrid.Children[bordergridNum - RowsCount] as CustomBorder;
-				Top.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Top.LeftBorderBrush = null;
 				//Top.RightBorderBrush = null;
 				//Top.BottomBorderBrush = null;
 				//Top.BorderBrush = null;
-
-				CustomBorder Right = bordergrid.Children[bordergridNum + 1] as CustomBorder;
-				Right.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Right.LeftBorderBrush = null;
 				//Right.TopBorderBrush = null;
 				//Right.BottomBorderBrush = null;
 				//Right.BorderBrush = null;
-
-				CustomBorder rightTop = bordergrid.Children[bordergridNum - RowsCount + 1] as CustomBorder;
-				rightTop.BeginAnimation(UIElement.OpacityProperty,daV);
 				//rightTop.LeftBorderBrush = null;
 				//rightTop.BottomBorderBrush = null;
 				//rightTop.BorderBrush = null;
-
-				CustomBorder leftTop = bordergrid.Children[bordergridNum - RowsCount - 1] as CustomBorder;
-				leftTop.BeginAnimation(UIElement.OpacityProperty,daV);
 				//leftTop.RightBorderBrush = null;
 				//leftTop.BottomBorderBrush = null;
 				//leftTop.BorderBrush = null;
@@ -298,34 +287,31 @@ namespace TestDemining
 			else if(bordergridNum % RowsCount == 0)
 			{
 				CustomBorder Top = bordergrid.Children[bordergridNum - RowsCount] as CustomBorder;
+				CustomBorder Right = bordergrid.Children[bordergridNum + 1] as CustomBorder;
+				CustomBorder Bottom = bordergrid.Children[bordergridNum + RowsCount] as CustomBorder;
+				CustomBorder rightBottom = bordergrid.Children[bordergridNum + RowsCount + 1] as CustomBorder;
+				CustomBorder rightTop = bordergrid.Children[bordergridNum - RowsCount + 1] as CustomBorder;
+				
+				rightTop.BeginAnimation(UIElement.OpacityProperty,daV);
+				rightBottom.BeginAnimation(UIElement.OpacityProperty,daV);
+				Bottom.BeginAnimation(UIElement.OpacityProperty,daV);
+				Right.BeginAnimation(UIElement.OpacityProperty,daV);
 				Top.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Top.LeftBorderBrush = null;
 				//Top.RightBorderBrush = null;
 				//Top.BottomBorderBrush = null;
 				//Top.BorderBrush = null;
-
-				CustomBorder Right = bordergrid.Children[bordergridNum + 1] as CustomBorder;
-				Right.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Right.LeftBorderBrush = null;
 				//Right.TopBorderBrush = null;
 				//Right.BottomBorderBrush = null;
 				//Right.BorderBrush = null;
-
-				CustomBorder Bottom = bordergrid.Children[bordergridNum + RowsCount] as CustomBorder;
-				Bottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Bottom.LeftBorderBrush = null;
 				//Bottom.RightBorderBrush = null;
 				//Bottom.TopBorderBrush = null;
 				//Bottom.BorderBrush = null;
-
-				CustomBorder rightBottom = bordergrid.Children[bordergridNum + RowsCount + 1] as CustomBorder;
-				rightBottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				//rightBottom.LeftBorderBrush = null;
 				//rightBottom.TopBorderBrush = null;
 				//rightBottom.BorderBrush = null;
-
-				CustomBorder rightTop = bordergrid.Children[bordergridNum - RowsCount + 1] as CustomBorder;
-				rightTop.BeginAnimation(UIElement.OpacityProperty,daV);
 				//rightTop.LeftBorderBrush = null;
 				//rightTop.BottomBorderBrush = null;
 				//rightTop.BorderBrush = null;
@@ -334,34 +320,31 @@ namespace TestDemining
 			else if((bordergridNum + 1) % RowsCount == 0)
 			{
 				CustomBorder Left = bordergrid.Children[bordergridNum - 1] as CustomBorder;
+				CustomBorder Top = bordergrid.Children[bordergridNum - RowsCount] as CustomBorder;
+				CustomBorder Bottom = bordergrid.Children[bordergridNum + RowsCount] as CustomBorder;
+				CustomBorder leftTop = bordergrid.Children[bordergridNum - RowsCount - 1] as CustomBorder;
+				CustomBorder leftBottom = bordergrid.Children[bordergridNum + RowsCount - 1] as CustomBorder;
+				
+				leftBottom.BeginAnimation(UIElement.OpacityProperty,daV);
+				leftTop.BeginAnimation(UIElement.OpacityProperty,daV);
+				Bottom.BeginAnimation(UIElement.OpacityProperty,daV);
+				Top.BeginAnimation(UIElement.OpacityProperty,daV);
 				Left.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Left.TopBorderBrush = null;
 				//Left.RightBorderBrush = null;
 				//Left.BottomBorderBrush = null;
 				//Left.BorderBrush = null;
-
-				CustomBorder Top = bordergrid.Children[bordergridNum - RowsCount] as CustomBorder;
-				Top.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Top.LeftBorderBrush = null;
 				//Top.RightBorderBrush = null;
 				//Top.BottomBorderBrush = null;
 				//Top.BorderBrush = null;
-
-				CustomBorder Bottom = bordergrid.Children[bordergridNum + RowsCount] as CustomBorder;
-				Bottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Bottom.LeftBorderBrush = null;
 				//Bottom.RightBorderBrush = null;
 				//Bottom.TopBorderBrush = null;
 				//Bottom.BorderBrush = null;
-
-				CustomBorder leftTop = bordergrid.Children[bordergridNum - RowsCount - 1] as CustomBorder;
-				leftTop.BeginAnimation(UIElement.OpacityProperty,daV);
 				//leftTop.RightBorderBrush = null;
 				//leftTop.BottomBorderBrush = null;
 				//leftTop.BorderBrush = null;
-
-				CustomBorder leftBottom = bordergrid.Children[bordergridNum + RowsCount - 1] as CustomBorder;
-				leftBottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				//leftBottom.RightBorderBrush = null;
 				//leftBottom.TopBorderBrush = null;
 				//leftBottom.BorderBrush = null;
@@ -370,54 +353,46 @@ namespace TestDemining
 			else
 			{
 				CustomBorder Top = bordergrid.Children[bordergridNum - RowsCount] as CustomBorder;
+				CustomBorder Left = bordergrid.Children[bordergridNum - 1] as CustomBorder;
+				CustomBorder Right = bordergrid.Children[bordergridNum + 1] as CustomBorder;
+				CustomBorder Bottom = bordergrid.Children[bordergridNum + RowsCount] as CustomBorder;
+				CustomBorder leftTop = bordergrid.Children[bordergridNum - RowsCount - 1] as CustomBorder;
+				CustomBorder leftBottom = bordergrid.Children[bordergridNum + RowsCount - 1] as CustomBorder;
+				CustomBorder rightBottom = bordergrid.Children[bordergridNum + RowsCount + 1] as CustomBorder;
+				CustomBorder rightTop = bordergrid.Children[bordergridNum - RowsCount + 1] as CustomBorder;
+				
+				rightBottom.BeginAnimation(UIElement.OpacityProperty,daV);
+				leftBottom.BeginAnimation(UIElement.OpacityProperty,daV);
+				leftTop.BeginAnimation(UIElement.OpacityProperty,daV);
+				Bottom.BeginAnimation(UIElement.OpacityProperty,daV);
+				Right.BeginAnimation(UIElement.OpacityProperty,daV);
+				Left.BeginAnimation(UIElement.OpacityProperty,daV);
 				Top.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Top.LeftBorderBrush = null;
 				//Top.RightBorderBrush = null;
 				//Top.BottomBorderBrush = null;
 				//Top.BorderBrush = null;
-
-				CustomBorder Left = bordergrid.Children[bordergridNum - 1] as CustomBorder;
-				Left.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Left.TopBorderBrush = null;
 				//Left.RightBorderBrush = null;
 				//Left.BottomBorderBrush = null;
 				//Left.BorderBrush = null;
-
-				CustomBorder Right = bordergrid.Children[bordergridNum + 1] as CustomBorder;
-				Right.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Right.LeftBorderBrush = null;
 				//Right.TopBorderBrush = null;
 				//Right.BottomBorderBrush = null;
 				//Right.BorderBrush = null;
-
-				CustomBorder Bottom = bordergrid.Children[bordergridNum + RowsCount] as CustomBorder;
-				Bottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				//Bottom.LeftBorderBrush = null;
 				//Bottom.RightBorderBrush = null;
 				//Bottom.TopBorderBrush = null;
 				//Bottom.BorderBrush = null;
-
-				CustomBorder leftTop = bordergrid.Children[bordergridNum - RowsCount - 1] as CustomBorder;
-				leftTop.BeginAnimation(UIElement.OpacityProperty,daV);
 				//leftTop.RightBorderBrush = null;
 				//leftTop.BottomBorderBrush = null;
 				//leftTop.BorderBrush = null;
-
-				CustomBorder leftBottom = bordergrid.Children[bordergridNum + RowsCount - 1] as CustomBorder;
-				leftBottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				//leftBottom.RightBorderBrush = null;
 				//leftBottom.TopBorderBrush = null;
 				//leftBottom.BorderBrush = null;
-
-				CustomBorder rightBottom = bordergrid.Children[bordergridNum + RowsCount + 1] as CustomBorder;
-				rightBottom.BeginAnimation(UIElement.OpacityProperty,daV);
 				//rightBottom.LeftBorderBrush = null;
 				//rightBottom.TopBorderBrush = null;
 				//rightBottom.BorderBrush = null;
-
-				CustomBorder rightTop = bordergrid.Children[bordergridNum - RowsCount + 1] as CustomBorder;
-				rightTop.BeginAnimation(UIElement.OpacityProperty,daV);
-				//rightTop.LeftBorderBrush = null;
 				//rightTop.BottomBorderBrush = null;
 				//rightTop.BorderBrush = null;
 			}
@@ -434,7 +409,7 @@ namespace TestDemining
 				cborder.Background = Brushes.Gray;
 				cborder.BorderBrush = Brushes.LightGray;
 				ChanegeAroundCborder(gridNum);
-				DoubleAnimation daV = new DoubleAnimation(0.5,1,new Duration(TimeSpan.FromSeconds(1)));
+				DoubleAnimation daV = new DoubleAnimation(1,1,new Duration(TimeSpan.FromSeconds(1)));
 				cborder.BeginAnimation(UIElement.OpacityProperty,daV);
 			}
 		}
